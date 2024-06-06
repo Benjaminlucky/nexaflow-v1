@@ -36,6 +36,22 @@ const realtorSchema = new mongoose.Schema(
         ref: "Realtor",
       },
     ],
+    bankName: {
+      type: String,
+      required: true,
+    },
+    bankAccountNumber: {
+      type: String,
+      required: true,
+    },
+    bankAccountName: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );
