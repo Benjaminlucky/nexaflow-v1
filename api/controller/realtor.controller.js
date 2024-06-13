@@ -66,6 +66,7 @@ const realtorSignup = async (req, res) => {
       username,
       emailAddress,
       phoneNumber,
+      referredBy,
       bankName,
       bankAccountNumber,
       bankAccountName,

@@ -29,6 +29,7 @@ const realtorSchema = new mongoose.Schema(
     referredBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Realtor",
+      required: false,
     },
     referrals: [
       {
