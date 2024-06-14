@@ -173,10 +173,11 @@ function Signup() {
             </form>
             <p className="signin">
               Already have an account?{" "}
-              <Link to="/" className="sign">
+              <Link to="/signin" className="sign">
                 Sign In
               </Link>
             </p>
+            <p className="copy">&copy; 2024 Nexaflow Inc.</p>
           </div>
         </div>
       </div>

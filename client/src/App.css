@@ -93,6 +93,9 @@ video {
   vertical-align: baseline;
 }
 
+* {
+  box-sizing: border-box;
+}
 /* HTML5 display-role reset for older browsers */
 article,
 aside,
@@ -145,20 +148,28 @@ table {
   --gray1: #e0e0e0;
 }
 
+/*GENERAL STYLES */
+.copy {
+  text-align: center;
+  font-size: 0.6rem;
+  margin-top: 0.7rem;
+}
+
 /*SIGNUP PAGE STYLES*/
 
 .section__wrapper {
   display: flex;
   width: var(--fullwidth);
-  height: 100vh;
+  height: 120vh;
+  overflow: hidden;
 }
 
 .left {
   background-image: url("../public/assets/signupBg.jpg");
-  background-color: aqua;
+  background-color: black;
   background-size: cover;
   width: 50%;
-  height: 100vh;
+  height: 120vh;
 }
 
 .right {
@@ -167,11 +178,12 @@ table {
 }
 
 .right__content {
-  padding: 3rem;
+  width: 80%;
+  padding: 0 3rem;
+  margin-inline: auto;
 }
 
 .signup__top {
-  padding: 3rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -184,15 +196,17 @@ table {
 }
 
 .signup__top p {
-  font-size: 1.2rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
 .signup__bottom {
   width: 100%;
+  margin-top: 1rem;
 }
 
 form {
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem 0.5rem;
@@ -200,15 +214,19 @@ form {
 
 input {
   width: 90%;
-  padding: 1rem;
+  padding: 0.7rem;
   background-color: var(--gray1);
   border: none;
   outline: none;
 }
 
+.bank {
+  width: 100%;
+}
 select {
-  width: 100% !important;
-  padding: 1rem;
+  width: 100%;
+  max-width: 100% !important;
+  padding: 0.7rem;
   background-color: #e0e0e0;
   outline: none;
   border: none;
@@ -216,22 +234,22 @@ select {
 
 input::placeholder,
 select {
-  font-size: 1.1rem;
-  color: black;
+  font-size: 0.8rem;
+  color: #585858 !important;
   text-transform: capitalize;
+  font-weight: bold;
 }
 
 .button {
   background-color: #333;
-  width: 202%;
-  padding: 1rem;
+  width: 100%;
+  padding: 0.8rem;
   color: #fff;
   font-size: 1.2rem;
   border: none;
 }
 
 .signin {
-  padding-top: 0.5rem;
   text-align: center;
 }
 

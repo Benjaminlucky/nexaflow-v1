@@ -1,0 +1,145 @@
+.section {
+  width: var(--fullwidth);
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.signin__left {
+  width: 50%;
+  background-color: black;
+  background-image: url("../../../public/assets/signinBg.jpg");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.right {
+  width: 50%;
+  padding: 3rem 2rem;
+  margin-inline: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.top__content {
+  width: 100%;
+  padding: 2rem;
+}
+
+.signin__title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+  color: #333;
+}
+
+.top__content p {
+  font-size: 1.2rem;
+}
+
+.bottom__content {
+  width: 100%;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 1.1rem;
+  background-color: var(--gray1);
+  border: none;
+  outline: none;
+}
+
+input::placeholder {
+  font-size: 0.8rem;
+  color: #585858 !important;
+  text-transform: capitalize;
+}
+
+.login__btn {
+  background-color: #333;
+  width: 100%;
+  padding: 0.8rem;
+  color: #fff;
+  font-size: 1.2rem;
+  border: none;
+}
+
+.signupLink {
+  text-align: center;
+}
+
+/*MEDIA QUERIES FOR TABLETS DEVICES*/
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .section {
+    display: flex;
+    flex-direction: column;
+    width: var(--fullwidth);
+    height: 100vh;
+  }
+
+  .signin__left {
+    width: var(--fullwidth);
+    height: 40vh;
+  }
+
+  .right {
+    width: var(--fullwidth);
+  }
+}
+
+/*MEDIA QUERIES FOR MOBILE DEVICES*/
+
+@media screen and (max-width: 767px) {
+  .section {
+    width: var(--fullwidth);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .signin__left {
+    width: var(--fullwidth);
+    height: 30vh;
+  }
+
+  .right {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .right__content {
+    width: 100%;
+    padding: 0;
+  }
+
+  .signin__title {
+    font-size: 2rem;
+  }
+
+  .top__content p {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .signupLink {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+}
