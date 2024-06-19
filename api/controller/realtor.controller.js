@@ -1,5 +1,6 @@
 import Realtor from "../models/realtor.models.js";
 import bcryptjs from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const realtorSignup = async (req, res) => {
   const {
@@ -95,3 +96,45 @@ const realtorSignup = async (req, res) => {
 };
 
 export default realtorSignup;
+
+export const realtorSignin = async (req, res) => {
+  try {
+    //get login credentials from body
+    const { emailAddress, password } = req.body;
+
+    // Validate if Realtor Exist
+    const existingRealtor = await Realtor.findOne({ emailAddress });
+    if (!existingRealtor) {
+      return res.status(401).json({ Message: "Invalid Credentials" });
+    }
+
+    //validate Realtor Password
+    const validPassword = bcryptjs.compareSync(
+      password,
+      existingRealtor.password
+    );
+    if (!validPassword) {
+      return res.status(401).json({ Message: "Invalid Credentials" });
+    }
+
+    // Generate JWT Token
+    const token = jwt.sign(
+      { id: existingRealtor._id, emailAddress: existingRealtor.emailAddress },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      message: "Sign in successful",
+      realtor: {
+        id: existingRealtor._id,
+        firstName: existingRealtor.firstName,
+        lastName: existingRealtor.lastName,
+        emailAddress: existingRealtor.emailAddress,
+      },
+      token,
+    });
+  } catch (error) {
+    return res.status(500).json({ Message: "Server Error" });
+  }
+};

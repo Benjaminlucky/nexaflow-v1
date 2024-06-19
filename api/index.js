@@ -22,6 +22,7 @@ app.use(cors({ origin: "http://localhost:3001" }));
 app.use(express.json());
 
 app.use("/api/realtor", realtorRoutes); // Matches the URL in Axios request
+app.use("/api/realtor", realtorRoutes);
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");

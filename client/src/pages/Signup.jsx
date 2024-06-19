@@ -48,7 +48,7 @@ function Signup() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/realtor/realtor", // Corrected URL
+        "http://localhost:3000/api/realtor/signup", // Corrected URL
         formDataToSend
       );
       console.log(response.data);

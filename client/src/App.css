@@ -169,10 +169,11 @@ table {
   background-color: black;
   background-size: cover;
   width: 50%;
-  height: 120vh;
+  height: 130vh;
 }
 
 .right {
+  margin-top: 4rem;
   width: 50%;
   height: 100vh;
 }
