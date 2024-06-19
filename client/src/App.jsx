@@ -4,13 +4,29 @@ import Signup from "./pages/Signup";
 import Signin from "./pages/signin/Signin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Signup />
+            </PublicRoute>
+          }
+        />
+
+        <Route
+          path="/signin"
+          element={
+            <PublicRoute>
+              <Signin />
+            </PublicRoute>
+          }
+        />
         <Route
           path="/dashboard"
           element={

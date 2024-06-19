@@ -6,6 +6,11 @@
   overflow: hidden;
 }
 
+.error-message {
+  color: red;
+  margin: 20px;
+}
+
 .signin__left {
   width: 50%;
   background-color: black;

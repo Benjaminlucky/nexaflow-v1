@@ -25,6 +25,10 @@ const realtorSchema = new mongoose.Schema(
       type: String,
       unique: true,
       required: true, // Adding required to ensure this field is not empty
+      match: [
+        /^0(80|70|90|81|91)[0-9]{8}$/,
+        "Invalid phone number. Phone number must be 11 digits and start with 080, 070, 090, 081, or 091.",
+      ],
     },
     referredBy: {
       type: mongoose.Schema.Types.ObjectId,

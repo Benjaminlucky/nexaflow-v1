@@ -16,43 +16,89 @@ const realtorSignup = async (req, res) => {
     password,
   } = req.body;
 
+  // Validate phone number format
+  const phoneNumberRegex = /^0(80|70|90|81|91)[0-9]{8}$/;
+  if (!phoneNumberRegex.test(phoneNumber)) {
+    return res.status(400).json({
+      message:
+        "Invalid phone number format. Phone number must be 11 digits and start with 080, 070, 090, 081, or 091.",
+    });
+  }
+
   //validation
 
-  if (
-    !firstName ||
-    !lastName ||
-    !username ||
-    !emailAddress ||
-    !phoneNumber ||
-    !bankName ||
-    !bankAccountNumber ||
-    !bankAccountName ||
-    !password
-  ) {
-    return res.status(400).json({ message: "All fields must be filled" });
+  if (!firstName) {
+    return res.status(400).json({ message: "Please fill your First Name" });
+  }
+  if (!lastName) {
+    return res.status(400).json({ message: "Please fill your Last Name" });
+  }
+  if (!username) {
+    return res.status(400).json({ message: "Please fill your username" });
+  }
+  if (!emailAddress) {
+    return res.status(400).json({ message: "Please fill your Email Address" });
+  }
+  if (!phoneNumber) {
+    return res.status(400).json({ message: "Please fill your Phone Number" });
+  }
+  if (!bankName) {
+    return res.status(400).json({ message: "Please fill your Bank Name" });
+  }
+  if (!bankAccountNumber) {
+    return res
+      .status(400)
+      .json({ message: "Please fill your Bank Account Number" });
+  }
+  if (!bankAccountName) {
+    return res
+      .status(400)
+      .json({ message: "Please fill your Bank Account Name" });
+  }
+  if (!password) {
+    return res.status(400).json({ message: "Please fill your Password" });
   }
 
   try {
-    // check if username, email, or phone number already exists
+    // check if username, email, or phone number and bank account number already exists
 
-    const existingRealtor = await Realtor.findOne({
-      $or: [
-        {
-          username: username,
-        },
-        {
-          emailAddress: emailAddress,
-        },
-        {
-          phoneNumber: phoneNumber,
-        },
-      ],
+    const existingRealtorUsername = await Realtor.findOne({
+      username: username,
+    });
+    const existingRealtoremail = await Realtor.findOne({
+      emailAddress: emailAddress,
     });
 
-    if (existingRealtor) {
+    const existingRealtorPhoneNumber = await Realtor.findOne({
+      phoneNumber: phoneNumber,
+    });
+
+    const existingRealtorAccountNumber = await Realtor.findOne({
+      bankAccountNumber: bankAccountNumber,
+    });
+
+    //Validate if username is in Use Already
+    if (existingRealtorUsername) {
+      return res.status(400).json({ message: "Username is already in use" });
+    }
+
+    // Validate if Email is in Use Already
+    if (existingRealtoremail) {
+      return res.status(400).json({ message: "Email is already in use" });
+    }
+
+    //validate if Phone number is in Use Already
+    if (existingRealtorPhoneNumber) {
       return res
         .status(400)
-        .json({ message: "username, email, or phone number already in use" });
+        .json({ message: "Phone number is already in use" });
+    }
+
+    // validate if bank account number is in use Already
+    if (existingRealtorAccountNumber) {
+      return res
+        .status(400)
+        .json({ message: "Bank Account Number already in use" });
     }
 
     // Hash the password
@@ -101,6 +147,16 @@ export const realtorSignin = async (req, res) => {
   try {
     //get login credentials from body
     const { emailAddress, password } = req.body;
+
+    if (emailAddress === "") {
+      return res
+        .status(401)
+        .json({ message: "Please enter your email address" });
+    }
+
+    if (password === "") {
+      return res.status(401).json({ message: "Please enter your password" });
+    }
 
     // Validate if Realtor Exist
     const existingRealtor = await Realtor.findOne({ emailAddress });

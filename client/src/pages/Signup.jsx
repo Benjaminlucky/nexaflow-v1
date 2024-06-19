@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function Signup() {
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -30,15 +31,45 @@ function Signup() {
     "Sterling Bank",
   ];
 
+  const phoneNumberRegex = /^(080|070|090|081|091)[0-9]{8}$/;
+  const bankAccountNumberRegex = /^[0-9]{10}$/;
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    let value = e.target.value;
+    if (e.target.name === "bankAccountNumber") {
+      value = value.replace(/[^0-9]/g, ""); // only allow numbers
+      if (value.length > 10) {
+        value = value.substring(0, 10); // limit to 10 digits
+      }
+    } else if (e.target.name !== "bankAccountName") {
+      value = value.trim(); // trim spaces for all fields except bankAccountName
+    }
+    if (e.target.name === "phoneNumber") {
+      value = value.replace(/[^0-9]/g, ""); // only allow numbers
+    }
+    setFormData({ ...formData, [e.target.name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const phoneNumber = formData.phoneNumber.trim();
+
+    if (!phoneNumberRegex.test(phoneNumber)) {
+      setErrorMessage(
+        "Invalid phone number. Please enter a valid 11-digit phone number starting with 080, 070, 090, 081, or 091."
+      );
+      return;
+    }
+
+    const bankAccountNumber = formData.bankAccountNumber;
+
+    if (!bankAccountNumberRegex.test(bankAccountNumber)) {
+      setErrorMessage(
+        "Invalid bank account number. Please enter a valid 10-digit bank account number."
+      );
+      return;
+    }
 
     // Ensure referredBy is null if empty
     const formDataToSend = { ...formData };
@@ -55,7 +86,10 @@ function Signup() {
       console.log("Sign Up Successful");
       navigate("/Signin");
     } catch (error) {
-      console.log("Error during sign up", error);
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.message;
+        setErrorMessage(errorMessage);
+      }
     }
   };
 
@@ -113,6 +147,7 @@ function Signup() {
                   placeholder="Phone Number"
                   value={formData.phoneNumber}
                   onChange={handleChange}
+                  pattern="[0-9]*"
                 />
               </div>
               <div className="referral">
@@ -171,6 +206,7 @@ function Signup() {
                 </button>
               </div>
             </form>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <p className="signin">
               Already have an account?{" "}
               <Link to="/signin" className="sign">

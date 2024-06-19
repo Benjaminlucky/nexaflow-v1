@@ -6,6 +6,8 @@ import axios from "axios";
 function Signin() {
   const navigate = useNavigate();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const [formData, setFormData] = useState({
     emailAddress: "",
     password: "",
@@ -33,12 +35,15 @@ function Signin() {
         // Navigate to the dashboard or any other protected route
         navigate("/dashboard");
       } else {
-        console.error("Login failed: No token received");
-        // Optionally, display an error message to the user
+        setErrorMessage("Login failed. No token received.");
       }
     } catch (error) {
-      console.error("Error during sign in", error);
-      // Optionally, display an error message to the user
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.message;
+        setErrorMessage(errorMessage);
+      } else {
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -71,9 +76,10 @@ function Signin() {
                 Sign In
               </button>
             </form>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <p className="signupLink">
               Don't have an account?{" "}
-              <Link to="/signup" className="sign">
+              <Link to="/" className="sign">
                 Sign Up
               </Link>
             </p>
