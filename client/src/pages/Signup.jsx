@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 function Signup() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -84,7 +85,10 @@ function Signup() {
       );
       console.log(response.data);
       console.log("Sign Up Successful");
-      navigate("/Signin");
+      setSuccessMessage("Signup successful! Redirecting to sign in...");
+      setTimeout(() => {
+        navigate("/signin");
+      }, 2000); // Redirect after 2 seconds
     } catch (error) {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data.message;
@@ -207,6 +211,9 @@ function Signup() {
               </div>
             </form>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )}
             <p className="signin">
               Already have an account?{" "}
               <Link to="/signin" className="sign">

@@ -11,6 +11,11 @@
   margin: 20px;
 }
 
+.success-message {
+  color: green;
+  margin: 20px;
+}
+
 .signin__left {
   width: 50%;
   background-color: black;

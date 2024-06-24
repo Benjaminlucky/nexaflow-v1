@@ -7,6 +7,7 @@ function Signin() {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [formData, setFormData] = useState({
     emailAddress: "",
@@ -33,7 +34,10 @@ function Signin() {
         // Store the token in local storage or context
         localStorage.setItem("token", response.data.token);
         // Navigate to the dashboard or any other protected route
-        navigate("/dashboard");
+        setSuccessMessage("Signin successful! Redirecting to dashboard...");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
       } else {
         setErrorMessage("Login failed. No token received.");
       }
@@ -77,6 +81,9 @@ function Signin() {
               </button>
             </form>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )}
             <p className="signupLink">
               Don't have an account?{" "}
               <Link to="/" className="sign">

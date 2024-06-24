@@ -134,7 +134,7 @@ const realtorSignup = async (req, res) => {
 
     // save the new realtor
     await newRealtor.save();
-    res.status(201).json({ message: "Realtor registered successfully" });
+    return res.status(201).json({ message: "Realtor registered successfully" });
   } catch (error) {
     console.error("error signing up", error);
     res.status(500).json({ error: "internal server error" });
