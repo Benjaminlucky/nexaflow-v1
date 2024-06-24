@@ -161,7 +161,7 @@ export const realtorSignin = async (req, res) => {
     // Validate if Realtor Exist
     const existingRealtor = await Realtor.findOne({ emailAddress });
     if (!existingRealtor) {
-      return res.status(401).json({ Message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid Credentials" });
     }
 
     //validate Realtor Password
@@ -170,7 +170,7 @@ export const realtorSignin = async (req, res) => {
       existingRealtor.password
     );
     if (!validPassword) {
-      return res.status(401).json({ Message: "Invalid Credentials" });
+      return res.status(401).json({ message: "Invalid Credentials" });
     }
 
     // Generate JWT Token
@@ -191,6 +191,7 @@ export const realtorSignin = async (req, res) => {
       token,
     });
   } catch (error) {
-    return res.status(500).json({ Message: "Server Error" });
+    console.error("error signing in", error);
+    return res.status(500).json({ message: "Server Error" });
   }
 };

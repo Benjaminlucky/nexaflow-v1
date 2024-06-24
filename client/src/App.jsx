@@ -5,6 +5,7 @@ import Signin from "./pages/signin/Signin";
 import Dashboard from "./pages/dashboard/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
+import "flowbite/dist/flowbite.css";
 
 function App() {
   return (

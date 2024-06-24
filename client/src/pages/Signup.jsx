@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
+import { Alert, Button, Select, Spinner, TextInput } from "flowbite-react";
+import "flowbite/dist/flowbite.css";
 
 function Signup() {
   const navigate = useNavigate();
@@ -20,6 +22,8 @@ function Signup() {
     bankAccountName: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const bankOptions = [
     "Zenith Bank",
@@ -53,6 +57,8 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    resetForm();
 
     const phoneNumber = formData.phoneNumber.trim();
 
@@ -60,6 +66,7 @@ function Signup() {
       setErrorMessage(
         "Invalid phone number. Please enter a valid 11-digit phone number starting with 080, 070, 090, 081, or 091."
       );
+      setLoading(false);
       return;
     }
 
@@ -69,6 +76,7 @@ function Signup() {
       setErrorMessage(
         "Invalid bank account number. Please enter a valid 10-digit bank account number."
       );
+      setLoading(false);
       return;
     }
 
@@ -86,6 +94,7 @@ function Signup() {
       console.log(response.data);
       console.log("Sign Up Successful");
       setSuccessMessage("Signup successful! Redirecting to sign in...");
+      setLoading(false);
       setTimeout(() => {
         navigate("/signin");
       }, 2000); // Redirect after 2 seconds
@@ -93,8 +102,19 @@ function Signup() {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data.message;
         setErrorMessage(errorMessage);
+        setLoading(false);
+        return;
       }
     }
+  };
+
+  const resetForm = () => {
+    // setFormData({
+    //   emailAddress: "",
+    //   password: "",
+    // });
+    setErrorMessage(null);
+    setSuccessMessage(null);
   };
 
   return (
@@ -109,65 +129,72 @@ function Signup() {
           <div className="signup__bottom">
             <form onSubmit={handleSubmit}>
               <div className="name">
-                <input
+                <TextInput
                   type="text"
                   name="firstName"
                   placeholder="First Name"
                   value={formData.firstName}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="lastName">
-                <input
+                <TextInput
                   type="text"
                   name="lastName"
                   placeholder="Last Name"
                   value={formData.lastName}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="username">
-                <input
+                <TextInput
                   type="text"
                   name="username"
                   placeholder="Username"
                   value={formData.username}
                   onChange={handleChange}
+                  className="block w-full  border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="email">
-                <input
+                <TextInput
                   type="email"
                   name="emailAddress"
                   placeholder="Email Address"
                   value={formData.emailAddress}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="phone">
-                <input
+                <TextInput
                   type="text"
                   name="phoneNumber"
                   placeholder="Phone Number"
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   pattern="[0-9]*"
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="referral">
-                <input
+                <TextInput
                   type="text"
                   name="referredBy"
                   placeholder="Referral Username"
                   value={formData.referredBy}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="bank">
-                <select
+                <Select
                   name="bankName"
                   value={formData.bankName}
                   onChange={handleChange}
+                  className="block w-full  border border-gray-500 rounded-lg p-2"
                 >
                   <option value="">Select a Bank</option>
                   {bankOptions.map((bank, index) => (
@@ -175,44 +202,64 @@ function Signup() {
                       {bank}
                     </option>
                   ))}
-                </select>
+                </Select>
               </div>
               <div className="bankNumber">
-                <input
+                <TextInput
                   type="text"
                   name="bankAccountNumber"
                   placeholder="Bank Account Number"
                   value={formData.bankAccountNumber}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="accountName">
-                <input
+                <TextInput
                   type="text"
                   name="bankAccountName"
                   placeholder="Bank Account Name"
                   value={formData.bankAccountName}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="password">
-                <input
+                <TextInput
                   type="password"
                   name="password"
                   placeholder="Password"
                   value={formData.password}
                   onChange={handleChange}
+                  className="block w-full border border-gray-500 rounded-lg p-2"
                 />
               </div>
               <div className="submit">
-                <button type="submit" className="button">
-                  Sign Up
-                </button>
+                <Button
+                  type="submit"
+                  color="dark"
+                  className="button"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <>
+                      <Spinner /> <p>Loading...</p>
+                    </>
+                  ) : (
+                    "Sign Up"
+                  )}
+                </Button>
               </div>
             </form>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {errorMessage && (
+              <Alert color="failure" className="p-4">
+                {errorMessage}
+              </Alert>
+            )}
             {successMessage && (
-              <p className="success-message">{successMessage}</p>
+              <Alert color="success" className="p-4">
+                {successMessage}
+              </Alert>
             )}
             <p className="signin">
               Already have an account?{" "}

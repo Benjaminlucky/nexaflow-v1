@@ -165,7 +165,7 @@ table {
 .section__wrapper {
   display: flex;
   width: var(--fullwidth);
-  height: 120vh;
+  height: 135vh;
   overflow: hidden;
 }
 
@@ -174,7 +174,7 @@ table {
   background-color: black;
   background-size: cover;
   width: 50%;
-  height: 130vh;
+  height: 135vh;
 }
 
 .right {
@@ -217,7 +217,7 @@ form {
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem 0.5rem;
 }
-
+/*
 input {
   width: 90%;
   padding: 0.7rem;
@@ -225,6 +225,7 @@ input {
   border: none;
   outline: none;
 }
+  */
 
 .bank {
   width: 100%;
@@ -238,6 +239,7 @@ select {
   border: none;
 }
 
+/*
 input::placeholder,
 select {
   font-size: 0.8rem;
@@ -245,6 +247,7 @@ select {
   text-transform: capitalize;
   font-weight: bold;
 }
+  */
 
 .button {
   background-color: #333;

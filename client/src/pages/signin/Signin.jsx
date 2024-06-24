@@ -1,18 +1,22 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./signin.css";
+import "../../index.css";
 import axios from "axios";
+import "flowbite/dist/flowbite.css";
+import { Alert, Button, TextInput } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 
 function Signin() {
   const navigate = useNavigate();
 
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
   const [formData, setFormData] = useState({
     emailAddress: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -23,6 +27,8 @@ function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    resetForm();
 
     try {
       const response = await axios.post(
@@ -45,10 +51,23 @@ function Signin() {
       if (error.response && error.response.data) {
         const errorMessage = error.response.data.message;
         setErrorMessage(errorMessage);
+        return;
       } else {
         setErrorMessage("An unexpected error occurred. Please try again.");
+        return;
       }
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const resetForm = () => {
+    // setFormData({
+    //   emailAddress: "",
+    //   password: "",
+    // });
+    setErrorMessage(null);
+    setSuccessMessage(null);
   };
 
   return (
@@ -62,27 +81,47 @@ function Signin() {
           </div>
           <div className="bottom__content">
             <form onSubmit={handleSubmit}>
-              <input
+              <TextInput
                 type="text"
                 placeholder="Enter Email address"
                 name="emailAddress"
                 onChange={handleChange}
                 value={formData.emailAddress}
+                className="block w-full mt-4"
               />
-              <input
+              <TextInput
                 type="password"
                 placeholder="Enter Password"
                 name="password"
                 onChange={handleChange}
                 value={formData.password}
+                className="block w-full mt-4 "
               />
-              <button className="login__btn" type="submit">
-                Sign In
-              </button>
+              <Button
+                type="submit"
+                color="dark"
+                className="mt-4 w-full"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    {" "}
+                    <Spinner /> <p> Loading...</p>{" "}
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </Button>
             </form>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
+            {errorMessage && (
+              <Alert color="failure" className="p-4 mt-2 mb-2">
+                {errorMessage}
+              </Alert>
+            )}
             {successMessage && (
-              <p className="success-message">{successMessage}</p>
+              <Alert color="success" className="p-4">
+                {successMessage}
+              </Alert>
             )}
             <p className="signupLink">
               Don't have an account?{" "}
